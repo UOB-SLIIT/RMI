@@ -1,0 +1,25 @@
+package com.perisic.beds.predefinemethods;
+/**
+ * Create the connection between client and the server
+ * 
+ * @author Nuwantha Fernando
+ *
+ */
+
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+
+import com.perisic.beds.rmiinterface.RemoteQuestions;
+
+//Method to get connection with server side 
+public class RemoteConnection {
+
+	public static RemoteQuestions remoteConnect() throws MalformedURLException, RemoteException, NotBoundException {
+		RemoteQuestions connection;
+		connection = (RemoteQuestions)Naming.lookup("rmi://localhost:1301/ABCServer");
+
+			return connection;
+	}
+}

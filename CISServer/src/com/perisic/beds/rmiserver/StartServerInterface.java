@@ -1,0 +1,353 @@
+package com.perisic.beds.rmiserver;
+/**
+ * Can ability to start server stop server, select winner, change database values and change admin credentials
+ * 
+ * @author Kavindi De Silva  Marc Conrad
+ *
+ */
+
+import java.awt.EventQueue;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
+import com.perisic.beds.gui.ManageQuestions;
+import com.perisic.beds.gui.SelectWinner;
+import com.perisic.beds.predefinemethods.predefineMethods;
+import com.perisic.beds.rmiinterface.RemoteQuestions;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.rmi.AccessException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.RemoteServer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class StartServerInterface extends JFrame {
+
+	private JPanel contentPane;
+
+//Main method of the class
+	public static void main(String[] args) {
+		
+		try {
+			boolean result=predefineMethods.adminPasswordVerification(predefineMethods.getAdminPassword());
+			
+			if(true) {
+				System.out.println("Password Correct");
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							StartServerInterface frame = new StartServerInterface();
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}else {
+				JOptionPane.showMessageDialog(null,"Password Incorrect");
+
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+	/**
+	 * Create the frame.
+	 * @throws RemoteException 
+	 */
+	public StartServerInterface() throws RemoteException {
+		
+		Registry reg = LocateRegistry.createRegistry(8081); 
+		
+		Border emptyBorder = BorderFactory.createEmptyBorder();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 900, 550);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setLayout(null);
+		panel.setBackground(new Color(0, 177, 157));
+		panel.setBounds(0, 0, 883, 55);
+		contentPane.add(panel);
+		
+		JLabel label = new JLabel("ABC Super");
+		label.setForeground(Color.WHITE);
+		label.setFont(new Font("mellony dry brush", Font.BOLD, 23));
+		label.setBounds(26, 0, 162, 65);
+		panel.add(label);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setLayout(null);
+		panel_1.setBackground(new Color(42, 49, 66));
+		panel_1.setBounds(0, 56, 221, 447);
+		contentPane.add(panel_1);
+		
+		JLabel lblServer = new JLabel("SERVER");
+		lblServer.setForeground(Color.WHITE);
+		lblServer.setFont(new Font("Calibri", Font.BOLD, 15));
+		lblServer.setBounds(12, 52, 74, 36);
+		panel_1.add(lblServer);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setLayout(null);
+		panel_2.setBackground(new Color(45, 55, 80));
+		panel_2.setBounds(218, 56, 665, 447);
+		contentPane.add(panel_2);
+		
+		JLabel lblWelcomeToServer = new JLabel("WELCOME TO SERVER MANAGER");
+		lblWelcomeToServer.setForeground(Color.WHITE);
+		lblWelcomeToServer.setFont(new Font("Consolas", Font.BOLD, 19));
+		lblWelcomeToServer.setBounds(205, 13, 267, 16);
+		panel_2.add(lblWelcomeToServer);
+		
+		JLabel serverStartLabel = new JLabel("Attempting to start the Question Server...");
+		serverStartLabel.setFont(new Font("Consolas", Font.PLAIN, 17));
+		serverStartLabel.setForeground(new Color(0, 177, 157));
+		serverStartLabel.setBounds(12, 73, 328, 16);
+		panel_2.add(serverStartLabel);
+		
+		JLabel errorStatus = new JLabel(" ");
+		errorStatus.setForeground(new Color(220, 20, 60));
+		errorStatus.setFont(new Font("Consolas", Font.PLAIN, 17));
+		errorStatus.setBounds(12, 91, 641, 27);
+		panel_2.add(errorStatus);
+		serverStartLabel.setVisible(false);
+
+//Stop Server button implementation
+		JButton btnStopServer = new JButton("Stop Server");
+		btnStopServer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				serverStartLabel.setVisible(true);
+				try {
+					try {
+						RemoteQuestions questions = new QuestionServerImplementation();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					Registry reg = LocateRegistry.createRegistry(8081);
+					
+					try {
+						reg.unbind("ABCServer");
+						errorStatus.setText("Remove rmi entry");
+					} catch (AccessException | NotBoundException ex) {
+		                Logger.getLogger(RemoteServer.class.getName()).log(Level.SEVERE, null, ex);
+		            }
+
+				} catch (RemoteException e) {
+					String errormessage="An error occured: "+e.toString();
+					errorStatus.setText(errormessage);
+					
+					
+					
+					e.printStackTrace();
+				} 
+				
+			}
+		});
+		btnStopServer.setBorder(emptyBorder);
+		btnStopServer.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				btnStopServer.setBackground(new Color(220, 20, 60));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnStopServer.setBackground(new Color(42, 49, 66));
+			}
+		});
+		btnStopServer.setForeground(Color.WHITE);
+		btnStopServer.setFont(new Font("Century Gothic", Font.PLAIN, 16));
+		btnStopServer.setBackground(new Color(42, 49, 66));
+		btnStopServer.setBounds(12, 124, 197, 42);
+		panel_1.add(btnStopServer);
+		
+		JButton btnStartServer = new JButton("Start Server");
+		btnStartServer.setBorder(emptyBorder);
+		btnStartServer.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				btnStartServer.setBackground(new Color(0, 177, 157));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnStartServer.setBackground(new Color(42, 49, 66));
+			}
+		});
+
+//Start Server button implementation
+		btnStartServer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				serverStartLabel.setVisible(true);
+				try {
+					RemoteQuestions questions = new QuestionServerImplementation();
+					Registry reg = LocateRegistry.createRegistry(8081);
+					try {
+						reg.bind("ABCServer",questions);
+						errorStatus.setText("Service started. Welcome to the RMI Question Service!");
+					} catch (AccessException ex) {
+		                Logger.getLogger(RemoteServer.class.getName()).log(Level.SEVERE, null, ex);
+		            }
+
+				} catch (Exception e) {
+					String errormessage="An error occured: "+e.toString();
+					
+					errorStatus.setText(errormessage);
+					e.printStackTrace();
+				} 
+				
+			}
+		});
+		btnStartServer.setForeground(Color.WHITE);
+		btnStartServer.setFont(new Font("Century Gothic", Font.PLAIN, 16));
+		btnStartServer.setBackground(new Color(42, 49, 66));
+		btnStartServer.setBounds(12, 80, 197, 42);
+		panel_1.add(btnStartServer);
+		
+		JLabel lblDatabase = new JLabel("DATABASE");
+		lblDatabase.setForeground(Color.WHITE);
+		lblDatabase.setFont(new Font("Calibri", Font.BOLD, 15));
+		lblDatabase.setBounds(12, 185, 74, 36);
+		panel_1.add(lblDatabase);
+
+//Edit database button implementation
+		JButton btnEditDatabaseValues = new JButton("Edit Database");
+		btnEditDatabaseValues.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					ManageQuestions m1= new ManageQuestions();
+					m1.setVisible(true);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		});
+		btnEditDatabaseValues.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				btnEditDatabaseValues.setBackground(new Color(0, 177, 157));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnEditDatabaseValues.setBackground(new Color(42, 49, 66));
+			}
+		});
+		btnEditDatabaseValues.setForeground(Color.WHITE);
+		btnEditDatabaseValues.setFont(new Font("Century Gothic", Font.PLAIN, 16));
+		btnEditDatabaseValues.setBackground(new Color(42, 49, 66));
+		btnEditDatabaseValues.setBounds(12, 214, 197, 42);
+		panel_1.add(btnEditDatabaseValues);
+		
+		JLabel lblOther = new JLabel("OTHER");
+		lblOther.setForeground(Color.WHITE);
+		lblOther.setFont(new Font("Calibri", Font.BOLD, 15));
+		lblOther.setBounds(12, 281, 74, 36);
+		panel_1.add(lblOther);
+
+//Select winner button implementation
+		JButton btnSelectWinner = new JButton("Select Winner");
+		btnSelectWinner.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				SelectWinner s1;
+				try {
+					s1 = new SelectWinner();
+					s1.setVisible(true);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		});
+		btnSelectWinner.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				btnSelectWinner.setBackground(new Color(0, 177, 157));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnSelectWinner.setBackground(new Color(42, 49, 66));
+			}
+		});
+		btnSelectWinner.setForeground(Color.WHITE);
+		btnSelectWinner.setFont(new Font("Century Gothic", Font.PLAIN, 16));
+		btnSelectWinner.setBackground(new Color(42, 49, 66));
+		btnSelectWinner.setBounds(12, 310, 197, 42);
+		panel_1.add(btnSelectWinner);
+
+//Change admin password button implementation
+		JButton btnChangePassword = new JButton("Change Password");
+		btnChangePassword.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					String password = null;
+					String reEnterPass = null;
+					boolean result = predefineMethods.adminPasswordVerification(predefineMethods.getAdminPassword());
+					
+					if(result) {
+						System.out.println("Password Correct");
+						
+						JPasswordField pf = new JPasswordField();
+						int okCxl = JOptionPane.showConfirmDialog(null, pf, "Enter New Password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+						if (okCxl == JOptionPane.OK_OPTION) {
+						  password = new String(pf.getPassword());
+						}
+						
+						JPasswordField pf1 = new JPasswordField();
+						int okCxl1 = JOptionPane.showConfirmDialog(null, pf1, "Renter Password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+						if (okCxl1 == JOptionPane.OK_OPTION) {
+							reEnterPass = new String(pf1.getPassword());
+						}
+						
+						if(password.equals(reEnterPass)) {
+							predefineMethods.setAdminPassword(password);
+							JOptionPane.showMessageDialog(null,"Admin Password Successfully changed");
+						}else
+						{
+							JOptionPane.showMessageDialog(null,"Passwords not match, Try Again");
+						}
+
+					}else {
+						JOptionPane.showMessageDialog(null,"Password Incorrect");
+
+					}
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+			}
+		});
+		btnChangePassword.setForeground(Color.WHITE);
+		btnChangePassword.setFont(new Font("Century Gothic", Font.PLAIN, 16));
+		btnChangePassword.setBackground(new Color(42, 49, 66));
+		btnChangePassword.setBounds(12, 355, 197, 42);
+		panel_1.add(btnChangePassword);
+	}
+}

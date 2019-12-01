@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="C:/Users/salit/Desktop/CIS Project/CISClient/library_external/animal-sniffer-annotations-1.17.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salit/Desktop/CIS Project/CISClient/library_external/annotations-8.7.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salit/Desktop/CIS Project/CISClient/library_external/checker-qual-2.5.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salit/Desktop/CIS Project/CISClient/library_external/error_prone_annotation-2.3.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salit/Desktop/CIS Project/CISClient/library_external/failureaccess-1.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salit/Desktop/CIS Project/CISClient/library_external/guava-27.0-jre.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salit/Desktop/CIS Project/CISClient/library_external/j2objc-annotations-1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salit/Desktop/CIS Project/CISClient/library_external/javafx-8.7.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salit/Desktop/CIS Project/CISClient/library_external/javax.annotation-api-1.3.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salit/Desktop/CIS Project/CISClient/library_external/javax.inject-1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salit/Desktop/CIS Project/CISClient/library_external/javax.mail.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salit/Desktop/CIS Project/CISClient/library_external/jsr305-3.0.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salit/Desktop/CIS Project/CISClient/library_external/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salit/Desktop/CIS Project/CISClient/library_external/mail-1.5.0-b01.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salit/Desktop/CIS Project/CISClient/library_external/mmm-util-exception-7.6.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salit/Desktop/CIS Project/CISClient/library_external/mmm-util-io-8.7.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salit/Desktop/CIS Project/CISClient/library_external/mysql-connector-java-8.0.18.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salit/Desktop/CIS Project/CISClient/library_external/rs2xml.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

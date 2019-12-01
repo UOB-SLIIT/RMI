@@ -1,0 +1,121 @@
+package com.perisic.beds.rmiinterface;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.util.Vector;
+
+import javax.swing.JTable;
+
+import com.perisic.beds.others.BillDetails;
+import com.perisic.beds.others.UserDetails;
+/**
+ * RMI interface to enable to retrieve questions from the server and to submit data
+ * to the server. 
+ * @author Marc Conrad
+ *
+ */
+public interface RemoteQuestions extends Remote {
+	/**
+	 * Number of questions on the server.
+	 * @return
+	 * @throws RemoteException
+	 */
+	public int getNumberOfQuestions() throws RemoteException; 
+	/**
+	 * Retrieve specific question from the server. 
+	 * @param i number of the question. 
+	 * @return the Question. 
+	 * @throws RemoteException
+	 */
+	public Question getQuestion(int i) throws RemoteException; 
+	/**
+	 * Submit the answer to the question number i.
+	 * @param i question where the answer belongs to.
+	 * @param answer the answer given to this question. 
+	 * @throws RemoteException
+	 */
+	void submitAnswer(int i, String answer) throws RemoteException;  
+	/**
+	 * Returns the answers to the questions given. 
+	 * @return answers to the questions. 
+	 * @throws RemoteException
+	 */
+	public Vector<Question> getData() throws RemoteException; 
+	
+//******************************************************************************************************************** My Methods
+	
+	public String getName(int billNo)throws RemoteException, Exception;
+	
+	public boolean validateBillNo(long billNo)throws RemoteException;
+	
+	public void getSerializedUserDetails(long billNo)throws RemoteException;
+	
+	public UserDetails getDeserializedUserDetails()throws RemoteException;
+	
+	public boolean checkRegistrationStatus(long billNo)throws Exception;
+	
+	public double getWiningProgree(int nic) throws Exception;
+	
+	public void setClientSubmission(int qID, String answer, String nic)throws Exception;
+	
+	public void createSatisficationTableColumn(String nic)throws Exception;
+	
+	public void getSerializedUserSatisficationAnswers(int nic)throws RemoteException;
+	
+	public String[][] getClientsSatisficationAnswers()throws Exception;
+	
+	public void setUsernameAndPassword(String username,String password,String nic)throws Exception;
+	
+	public void updateRegistration(String nic)throws Exception;
+	
+	public String getPasswordFromUsername(String username)throws Exception;
+	
+	public int getAnswerCountYesNoQuiz (String quiz, String ans)throws Exception;
+	
+	public BillDetails getBillDetails(String nic)throws Exception;
+	
+	public String getBranchLocation(String branchCode)throws Exception;
+	
+	public String getEmployeeIDFromBillNo(String billNo, String empPostition)throws Exception;
+	
+	public String getEmployeeNameFromEmpID(String empID)throws Exception;
+	
+	public UserDetails getUserDetailsFromNIC(String nic)throws Exception;
+	
+	public void updateUser(String nic, String name, String address, String phoneNo, String email, String feedback)throws Exception;
+	
+	public void setCompletenessValue(String nic)throws Exception;
+	
+	public boolean getCompletenessValue(String nic)throws Exception;
+	
+	public void updateWinningProgressValue(double Value, String nic)throws Exception;
+
+	public String[] billNoArray(String nic) throws Exception;
+	
+	public BillDetails getBillDetailsFromBillNumber(String billNo)throws Exception;
+	
+	public double getQuestionScore()throws Exception;
+	
+	public String getSaltFromUsername(String username)throws Exception;
+	
+	public boolean verfiySaltedPassword(String password,String dbPass,String saltValue)throws Exception;
+	
+	public String readSelectionFile()throws Exception;
+	
+	public void sendEmail(String subject, String message, String to)throws Exception;
+	
+	public  String getEmail(String billNo) throws Exception;
+	
+	public String getEmailFromUsername(String username) throws Exception;
+	
+	public void resetPassword(String password, String nic) throws Exception;
+	
+	public void storeWinnerValue(String billNumber, String winner)throws Exception;
+	
+	public String[] getWinnerDetails()throws Exception;
+	
+	public String testConnection() throws Exception;
+	
+	
+}
